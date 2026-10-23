@@ -1,0 +1,200 @@
+`
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GramBazaar | Raj Kumar Nayak</title>
+<style>
+:root{--green:#176b42;--lime:#d8f36a;--cream:#f8f7ef;--ink:#19271e}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--cream);color:var(--ink)}
+header{background:var(--green);color:white;padding:17px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--lime)}
+header small{color:#e2f4e8}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0;border-radius:9px;padding:11px 15px;font-weight:bold}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f2b544}
+.hero{padding:48px 6%;background:linear-gradient(115deg,#e4f0d8,#f9f5e5);display:grid;grid-template-columns:1.2fr .8fr;gap:25px;align-items:center}
+.hero h1{font-size:clamp(35px,5vw,62px);line-height:1.08;margin:12px 0;color:#173f2a}
+.hero p{font-size:17px;line-height:1.7;color:#4a5a4d}
+.eyebrow{font-size:12px;font-weight:bold;letter-spacing:2px;color:var(--green)}
+.hero img{width:100%;height:270px;object-fit:cover;border-radius:24px}
+.primary{background:var(--green);color:white}
+main{max-width:1200px;margin:auto;padding:28px 18px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h2{margin:8px 0 18px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.filters button{background:#e7e9dc;color:#344b37}
+.filters button.active{background:var(--green);color:white}
+.search{width:100%;max-width:320px;padding:12px;border:1px solid #d4d9cd;border-radius:9px;background:white}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.card{background:white;border:1px solid #e5e7de;border-radius:15px;overflow:hidden;box-shadow:0 4px 16px #152d160b}
+.card img{width:100%;height:170px;object-fit:cover;background:#e9eee3}
+.card-content{padding:14px}
+.tag{font-size:11px;color:var(--green);font-weight:bold}
+.card h3{margin:8px 0}
+.price{font-size:20px;font-weight:900;color:var(--green)}
+.unit{font-size:12px;color:#727a70}
+.add{width:100%;background:var(--green);color:white;margin-top:12px}
+.add:hover,.primary:hover{background:#0e5030}
+.cart-box{margin-top:35px;background:white;border-radius:16px;padding:22px;border:1px solid #e3e5da}
+.cart-item{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;border-bottom:1px solid #eee;padding:12px 0}
+.qty{display:flex;align-items:center;gap:9px}
+.qty button{padding:6px 10px;background:#eaf0e6}
+.remove{background:#fee8e5;color:#a32828;padding:7px}
+.total{font-size:22px;font-weight:bold;color:var(--green);margin:18px 0}
+.checkout{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.checkout input,.checkout textarea{width:100%;padding:12px;border:1px solid #d7ddd3;border-radius:8px}
+.checkout textarea{grid-column:1/-1;min-height:75px}
+.whatsapp{background:#188c50;color:white;width:100%;margin-top:13px}
+.note{font-size:13px;color:#667366;line-height:1.6}
+footer{background:#142d20;color:#e6eee7;padding:25px;text-align:center;margin-top:25px}
+footer span{color:var(--lime)}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr}.hero img{height:220px}}
+@media(max-width:450px){.grid{grid-template-columns:1fr 1fr;gap:10px}.card img{height:120px}.card-content{padding:10px}.card h3{font-size:15px}.price{font-size:17px}.cart-item{grid-template-columns:1fr auto}.cart-item .remove{grid-column:2}.hero{padding:30px 18px}main{padding:20px 12px}.checkout{grid-template-columns:1fr}.checkout textarea{grid-column:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="logo">🌿 Gram<span>Bazaar</span></div>
+    <small>Shahdol ke local products, aapke ghar tak</small>
+  </div>
+  <button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 Cart (<span id="cartCount">0</span>)</button>
+</header>
+
+<section class="hero">
+ <div>
+  <div class="eyebrow">LOCAL • NATURAL • TRUSTED</div>
+  <h1>Apne shehar ka bazaar, ab online!</h1>
+  <p>Chawal, gehun, mitti ke diye, Diwali lights aur wooden furniture — apne pasand ke products chunein aur WhatsApp par order bhejein.</p>
+  <button class="primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">🛍️ Products Dekhein</button>
+ </div>
+ <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=85" alt="Green agricultural fields" onerror="this.style.display='none'">
+</section>
+
+<main>
+ <div class="section-head" id="products">
+  <div><div class="eyebrow">HAMARA COLLECTION</div><h2>Popular Products</h2></div>
+  <input class="search" id="search" placeholder="🔍 Product search karein..." oninput="renderProducts()">
+ </div>
+ <div class="filters" id="filters"></div>
+ <div class="grid" id="grid"></div>
+
+ <section class="cart-box" id="cart">
+  <div class="eyebrow">YOUR SHOPPING</div>
+  <h2>🛒 Aapka Cart</h2>
+  <div id="cartItems">Abhi cart khaali hai. Products add karein!</div>
+  <div class="total">Total: ₹<span id="total">0</span></div>
+
+  <h3>Order Details</h3>
+  <form id="orderForm">
+   <div class="checkout">
+    <input id="customer" placeholder="Aapka naam *" required>
+    <input id="phone" placeholder="Mobile number *" type="tel" pattern="[0-9+\-\s]{10,16}" required>
+    <textarea id="address" placeholder="Poora address aur delivery location *" required></textarea>
+    <textarea id="suggestion" placeholder="Extra instructions (optional)"></textarea>
+   </div>
+   <button class="whatsapp" type="submit">📲 WhatsApp par Order Bhejein</button>
+  </form>
+  <p class="note">Note: Order WhatsApp mein message ke roop mein khulega. Seller se price, availability, delivery aur payment confirm karein. Sample prices ko apne asli prices se badlein.</p>
+ </section>
+
+ <section style="margin-top:30px">
+  <h2>🌱 GramBazaar ke baare mein</h2>
+  <p style="line-height:1.8">GramBazaar ek student project hai, jiska uddeshya Shahdol aur aas-paas ke local products ko online dikhana hai. Is website ko Raj Kumar Nayak, Class 9th ne banaya hai.</p>
+ </section>
+</main>
+
+<footer>
+ <div class="logo">🌿 Gram<span>Bazaar</span></div>
+ <p>Made with ❤️ by Raj Kumar Nayak | Class 9th</p>
+ <small>Local products, local pride.</small>
+</footer>
+
+<script>
+const products=[
+ {id:1,name:"Rice (Chawal)",cat:"Anaj",price:55,unit:"per kg",img:"https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80"},
+ {id:2,name:"Wheat (Gehun)",cat:"Anaj",price:35,unit:"per kg",img:"https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80"},
+ {id:3,name:"Mitti ka Diya",cat:"Diwali",price:10,unit:"per piece",img:"https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80"},
+ {id:4,name:"Diwali Lights",cat:"Diwali",price:150,unit:"per set",img:"https://images.unsplash.com/photo-1576849143163-7f9e8d0a9b3d?auto=format&fit=crop&w=600&q=80"},
+ {id:5,name:"Clay Pot (Matka)",cat:"Pots",price:120,unit:"per piece",img:"https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80"},
+ {id:6,name:"Decorative Table",cat:"Wood",price:1200,unit:"per piece",img:"https://images.unsplash.com/photo-1499933374294-4584851497cc?auto=format&fit=crop&w=600&q=80"},
+ {id:7,name:"Wooden Furniture",cat:"Wood",price:2500,unit:"per piece",img:"https://images.unsplash.com/photo-家具?auto=format&fit=crop&w=600&q=80"},
+ {id:8,name:"Wooden Pot",cat:"Wood",price:350,unit:"per piece",img:"https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=80"}
+];
+let cart={};
+let category="All";
+const categories=["All","Anaj","Diwali","Pots","Wood"];
+const grid=document.getElementById("grid");
+
+function renderFilters(){
+ document.getElementById("filters").innerHTML=categories.map(cat=>
+ `<button class="${category===cat?'active':''}" onclick="setCategory('${cat}')">${cat==="All"?"Sabhi Products":cat}</button>`
+ ).join("");
+}
+function setCategory(cat){category=cat;renderFilters();renderProducts()}
+function renderProducts(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const list=products.filter(p=>(category==="All"||p.cat===category)&&p.name.toLowerCase().includes(q));
+ grid.innerHTML=list.map(p=>`
+ <article class="card">
+  <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8efdf/24583b?text=GramBazaar+Product'">
+  <div class="card-content">
+   <div class="tag">${p.cat.toUpperCase()}</div>
+   <h3>${p.name}</h3>
+   <div class="price">₹${p.price} <span class="unit">${p.unit}</span></div>
+   <button class="add" onclick="addToCart(${p.id})">＋ Add to Cart</button>
+  </div>
+ </article>`).join("")||"<p>Koi product nahi mila.</p>";
+}
+function addToCart(id){cart[id]=(cart[id]||0)+1;renderCart()}
+function changeQty(id,delta){
+ cart[id]=(cart[id]||0)+delta;
+ if(cart[id]<=0)delete cart[id];
+ renderCart();
+}
+function renderCart(){
+ const entries=Object.entries(cart);
+ document.getElementById("cartCount").textContent=entries.reduce((s,[id,q])=>s+q,0);
+ document.getElementById("cartItems").innerHTML=entries.length?entries.map(([id,q])=>{
+  const p=products.find(x=>x.id===Number(id));
+  return `<div class="cart-item">
+   <div><b>${p.name}</b><br><small>₹${p.price} × ${q} = ₹${p.price*q}</small></div>
+   <div class="qty"><button type="button" onclick="changeQty(${id},-1)">−</button><b>${q}</b><button type="button" onclick="changeQty(${id},1)">＋</button></div>
+   <button type="button" class="remove" onclick="changeQty(${id},-${q})">Remove</button>
+  </div>`;
+ }).join(""):"Abhi cart khaali hai. Products add karein!";
+ document.getElementById("total").textContent=entries.reduce((s,[id,q])=>s+products.find(p=>p.id===Number(id)).price*q,0).toLocaleString("en-IN");
+}
+renderFilters();renderProducts();renderCart();
+
+document.getElementById("orderForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ const entries=Object.entries(cart);
+ if(!entries.length){alert("Pehle cart mein product add karein.");return}
+ const name=document.getElementById("customer").value.trim();
+ const phone=document.getElementById("phone").value.trim();
+ const address=document.getElementById("address").value.trim();
+ const suggestion=document.getElementById("suggestion").value.trim();
+ if(!name||!phone||!address){alert("Naam, mobile aur address bharein.");return}
+
+ // IMPORTANT: Replace with seller's WhatsApp number including country code.
+ const SELLER_WHATSAPP="91XXXXXXXXXX";
+ if(!/^91\d{10}$/.test(SELLER_WHATSAPP)){
+  alert("Pehle code mein SELLER_WHATSAPP ko seller ke 10-digit mobile number aur 91 country code se replace karein.");
+  return;
+ }
+ const lines=entries.map(([id,q])=>{
+  const p=products.find(x=>x.id===Number(id));
+  return `${p.name} - ${q} x Rs.${p.price} = Rs.${q*p.price}`;
+ });
+ const total=entries.reduce((s,[id,q])=>s+products.find(p=>p.id===Number(id)).price*q,0);
+ const message=`*GramBazaar Order*%0A%0AName: ${encodeURIComponent(name)}%0ACustomer Mobile: ${encodeURIComponent(phone)}%0AAddress: ${encodeURIComponent(address)}%0A%0A*Products:*%0A${encodeURIComponent(lines.join("\n"))}%0A%0ATotal: Rs.${total}%0AExtra instructions: ${encodeURIComponent(suggestion||"None")}`;
+ window.open(`https://wa.me/${SELLER_WHATSAPP}?text=${message}`,"_blank");
+});
+</script>
+</body>
+</html>
